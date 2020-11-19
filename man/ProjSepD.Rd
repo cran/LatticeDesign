@@ -17,7 +17,7 @@ This function computes the squared projective separation distance of a design.
 The value returned from the function gives the squared one-dimensional, two-dimensional, ..., (p-1)-dimensional projective separation distances, and the unprojected separation distance, where p is the number of dimensions of the design.
 }
 \references{
-He, Xu (2018). "Lattice-based designs with quasi-uniform projections", arXiv:1709.02062v2. 
+He, Xu (2020). "Lattice-based designs possessing quasi-optimal separation distance on all projections", \emph{Biometrika}, accepted, DOI:10.1093/biomet/asaa057.
 }
 \examples{
 design = rbind(1:3,c(41,1.2,1.3),c(5.4,5.48,5.7),c(4.3,2.3,2));

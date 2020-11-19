@@ -19,7 +19,7 @@ InterleavedMaximinDAlg3(p,n,weight=rep(1,p));
 \item{weight}{Optional, the weights used in the distance measure, higher for more important variable.}
 }
 \details{
-These functions generate an interleaved lattice-based maximin distance design in p dimensions and at least n points, following the algorithms provided in the paper "Interleaved lattice-based maximin distance designs". Function InterleavedMaximinD uses the recommended algorithm provided in the paper. Functions InterleavedMaximinDAlg1, InterleavedMaximinDAlg2, and InterleavedMaximinDAlg3 use Algorithm 1, 2, and 3, respectively. For InterleavedMaximinDAlg1, p must be no greater than 5. For InterleavedMaximinDAlg3, p must be greater than 8. 
+This function generates an interleaved lattice-based maximin distance design in p dimensions and at least n points, following the algorithms provided in the paper "Interleaved lattice-based maximin distance designs". Function InterleavedMaximinD uses the recommended algorithm provided in the paper. Functions InterleavedMaximinDAlg1, InterleavedMaximinDAlg2, and InterleavedMaximinDAlg3 use Algorithm 1, 2, and 3, respectively. For InterleavedMaximinDAlg1, p must be no greater than 5. For InterleavedMaximinDAlg3, p must be greater than 8. 
 }
 \value{
 The value returned from the function is a list containing the following components:
@@ -32,7 +32,7 @@ The value returned from the function is a list containing the following componen
 \item{L01}{The base design.}
 }
 \references{
-He, Xu (2018). "Interleaved lattice-based maximin distance designs", \emph{Biometrika}, accepted, arXiv:1807.02289v1. 
+He, Xu (2019). "Interleaved lattice-based maximin distance designs", \emph{Biometrika}, 106(2): 453-464. 
 }
 \examples{
 InterleavedMaximinD(p=3,n=10,weight=rep(1,3));

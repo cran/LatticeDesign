@@ -28,7 +28,7 @@ The value returned from the function is a list containing the following componen
 \item{FillDistance}{The fill distance of the design for the nonboundary region.}
 }
 \references{
-He, Xu (2018). "Sliced rotated sphere packing designs", \emph{Technometrics}, accepted, \cr DOI: 10.1080/00401706.2018.1458655.
+He, Xu (2019). "Sliced rotated sphere packing designs", \emph{Technometrics}, 61(1): 66-76. 
 }
 \examples{
 SlicedRSPD(p=2,n=50,rotation="magic",w=100)

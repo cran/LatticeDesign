@@ -219,7 +219,7 @@ InterleavedMaximinDAlg1 <- function(p,n,weight=rep(1,p)) {
 	if(p==2) GsName <- data(GeneratorMatrices2, envir=environment())
 	if(p==3) GsName <- data(GeneratorMatrices3, envir=environment())
 	if(p==4) GsName <- data(GeneratorMatrices4, envir=environment())
-	if(p==4) GsName <- data(GeneratorMatrices5, envir=environment())
+	if(p==5) GsName <- data(GeneratorMatrices5, envir=environment())
 	Gs <- get(GsName)
 	Gsn <- dim(Gs)[1]/p
 	SepBest <- 0

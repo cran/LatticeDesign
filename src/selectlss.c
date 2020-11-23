@@ -66,7 +66,7 @@ void selectlss(int* p_, int* n_, int* ps_, int* expair_nrow_, int* expair, int* 
 	for(j=0;j<p;j++) if(llow[j]<1) llow[j]=1; 
 	if(ps3>0) for(j=ps1;j<p;j++) if(llow[j]<2) llow[j]=2;  
 	int lhigh[p]; for(j=0;j<p;j++) lhigh[j]=lgoal[j]*2+1;
-	int lss[p+1]; for(j=0;j<p;j++) lss[j]=llow[j];  // s, followed by 
+	int lss[p+2]; for(j=0;j<p;j++) lss[j]=llow[j];  // s, followed by 
 
 	double lreal[p]; 
 	double td; 

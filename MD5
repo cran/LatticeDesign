@@ -1,4 +1,4 @@
-0d7f59aed6e7f8a67196a3c512eff1c9 *DESCRIPTION
+3346afe7a1fcba98ad3efdb8d10f86b9 *DESCRIPTION
 978db6778a132ed5d80beacf5f8484a2 *NAMESPACE
 13305ce35ffd283d72d371663360cd39 *R/DPMPD.r
 23920794d9fca5b9afbbcb056d7251e1 *R/InterleavedMaximinD.R
@@ -22,7 +22,7 @@ c3eefe3b92a8f60d2f60976d6f92f4fc *man/GeneratorMatrices.Rd
 51312f992507827b7b710fa6b809245e *man/InterleavedMaximinD.Rd
 21139b37e6a39fe6bd2fd3e878216b0e *man/InterleavedMinimaxD.Rd
 e29fee54bb0b99e920c63e735d5cd44d *man/LRS.Rd
-37e2390e108f3b76418ff85012be9131 *man/LatticeDesign-package.Rd
+3d821f73a2d65fcdc97efb2494ba785a *man/LatticeDesign-package.Rd
 043dcf9771c4037bbea797edfbe22f26 *man/ProjSepD.Rd
 9d05a7ead99f646a7f79f985e2a906c6 *man/RSPD.Rd
 8494f1550abf2e3c5e8dadb9d0cb4d36 *man/SlicedRSPD.Rd
@@ -32,4 +32,4 @@ df5a3f4f4e83a94e40a285c162af72dd *src/init.c
 d4ae7a4d4de3349b8bde3afd431e5f07 *src/lrslib.h
 ed280e75dc2a721af5de54fdc5b27072 *src/lrsmp.c
 e4706998064546cbd802a5b105236e2b *src/lrsmp.h
-e71a15177e740ce1ccb94fe7ccba89a0 *src/selectlss.c
+554853b82fefd9af8e02aeaf77ae95ef *src/selectlss.c

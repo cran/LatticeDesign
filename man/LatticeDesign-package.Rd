@@ -13,8 +13,8 @@ and densest packing-based maximum projections designs.
 \tabular{ll}{
 Package: \tab LatticeDesign\cr
 Type: \tab Package\cr
-Version: \tab 2.0-2\cr
-Date: \tab 2020-11-21\cr
+Version: \tab 2.0-4\cr
+Date: \tab 2020-12-4\cr
 License: \tab LGPL-2.1\cr
 }
 Important functions in this package are: 

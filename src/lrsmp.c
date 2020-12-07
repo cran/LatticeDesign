@@ -288,6 +288,7 @@ gcd (lrs_mp u, lrs_mp v)	/*returns u=gcd(u,v) destroying v */
 	        Switches to single precision when possible for greater speed */
 {
   lrs_mp r;
+  r[0]=1;  // Modified by Xu He
   unsigned long ul, vl;
   long i;
   static unsigned long maxspval = MAXD;		/* Max value for the last digit to guarantee */
@@ -497,8 +498,8 @@ mulint (lrs_mp a, lrs_mp b, lrs_mp c)	/* multiply two integers a*b --> c */
   la = length (a);
   lb = length (b);
   nlength = la + lb - 2;
-  if (nlength > lrs_digits)
-    ; //digits_overflow ();
+//  if (nlength > lrs_digits)
+//    digits_overflow ();
 
   for (i = 0; i < la - 2; i++)
     c[lb + i] = 0;
@@ -513,6 +514,7 @@ mulint (lrs_mp a, lrs_mp b, lrs_mp c)	/* multiply two integers a*b --> c */
 	  }
       c[i] = b[i] * a[1];
     }
+//  c[0] = 1;  // Modified by Xu He
   storelength (c, nlength);
   storesign (c, sign (a) == sign (b) ? POS : NEG);
   normalize (c);
@@ -765,6 +767,7 @@ comprod (lrs_mp Na, lrs_mp Nb, lrs_mp Nc, lrs_mp Nd)	/* +1 if Na*Nb > Nc*Nd  */
 			  /*  0 if Na*Nb = Nc*Nd  */
 {
   lrs_mp mc, md;
+  mc[0]=1; md[0]=1;  // Modified by Xu He
   mulint (Na, Nb, mc);
   mulint (Nc, Nd, md);
   linint (mc, ONE, md, -ONE);
@@ -808,6 +811,7 @@ linrat (lrs_mp Na, lrs_mp Da, long ka, lrs_mp Nb, lrs_mp Db, long kb, lrs_mp Nc,
    and reduces answer by gcd(Nc,Dc) */
 {
   lrs_mp c;
+  c[0]=1;  // Modified by Xu He
   mulint (Na, Db, Nc);
   mulint (Da, Nb, c);
   linint (Nc, ka, c, kb);	/* Nc = (ka*Na*Db)+(kb*Da*Nb)  */

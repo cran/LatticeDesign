@@ -1003,6 +1003,7 @@ lrs_estimate (lrs_dic * P, lrs_dat * Q)
   double *cest = Q->cest;
   long d = P->d;
   lrs_alloc_mp(Nvol); lrs_alloc_mp(Dvol);
+  Nvol[0]=1; Dvol[0]=1;  // Modified by Xu He
 /* Main Loop of Estimator */
 
   output = lrs_alloc_mp_vector (Q->n);	/* output holds one line of output from dictionary     */
@@ -1224,6 +1225,7 @@ pivot (lrs_dic * P, lrs_dat * Q, long bas, long cob)
   long d, m_A;
 
   lrs_alloc_mp(Ns); lrs_alloc_mp(Nt); lrs_alloc_mp(Ars);
+  Nt[0]=1; Ns[0]=1;  // Modified by Xu He
 
   d = P->d;
   m_A = P->m_A;
@@ -1983,6 +1985,7 @@ updatevolume (lrs_dic * P, lrs_dat * Q)		/* rescale determinant and update the v
 {
   lrs_mp tN, tD, Vnum, Vden;
   lrs_alloc_mp(tN); lrs_alloc_mp(tD); lrs_alloc_mp(Vnum); lrs_alloc_mp(Vden);
+  Vnum[0]=1; Vden[0]=1;  // Modified by Xu He
   rescaledet (P, Q, Vnum, Vden);
   copy (tN, Q->Nvolume);
   copy (tD, Q->Dvolume);
@@ -2013,6 +2016,7 @@ checkredund (lrs_dic * P, lrs_dat * Q)
   long d = P->d;
 
   lrs_alloc_mp(Ns); lrs_alloc_mp(Nt);
+  Ns[0]=1; Nt[0]=1;  // Modified by Xu He
   Row = P->Row;
   Col = P->Col;
 

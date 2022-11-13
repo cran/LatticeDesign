@@ -1463,7 +1463,6 @@ getabasis (lrs_dic * P, lrs_dat * Q, long order[])
       i = Q->lastdv + 1;
       while (i <= m && !negative (A[Row[i]][0]))
 	i++;
-      if (i <= m); 
 	}
   return TRUE;
 }				/*  end of getabasis */

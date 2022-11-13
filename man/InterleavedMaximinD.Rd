@@ -38,5 +38,5 @@ He, Xu (2019). "Interleaved lattice-based maximin distance designs", \emph{Biome
 InterleavedMaximinD(p=3,n=10,weight=rep(1,3));
 InterleavedMaximinDAlg1(p=3,n=10);
 InterleavedMaximinDAlg2(p=6,n=10);
-InterleavedMaximinDAlg3(p=9,n=120);
+InterleavedMaximinDAlg3(p=9,n=257);
 }

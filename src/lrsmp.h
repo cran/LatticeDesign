@@ -144,7 +144,7 @@ typedef long ***lrs_mp_matrix;
 /* next two functions are not used by lrsmp, but are for lrsgmp compatability */
 #define lrs_alloc_mp(a)    
 #define lrs_clear_mp(a)  
-lrs_mp_t lrs_alloc_mp_t();                      /* dynamic allocation of lrs_mp                  */
+lrs_mp_t lrs_alloc_mp_t(void);                      /* dynamic allocation of lrs_mp                  */
 lrs_mp_vector lrs_alloc_mp_vector (long n);	/* allocate lrs_mp_vector for n+1 lrs_mp numbers */
 lrs_mp_matrix lrs_alloc_mp_matrix (long m, long n);	/* allocate lrs_mp_matrix for m+1 x n+1 lrs_mp   */
 //long lrs_mp_init (long dec_digits, FILE * lrs_ifp, FILE * lrs_ofp);	/* max number of decimal digits, fps   */

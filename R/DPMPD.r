@@ -102,7 +102,7 @@ DPMPD <- function(p=2, n, rotation="magic", w=100){
 		vvlist3 = vvlist3[ order(vvlist3[,6])[1:10], ]
 	}
 	
-	set.seed(1)
+#	set.seed(1)
 
 
 	#### Try w rotation matrices
@@ -112,7 +112,7 @@ DPMPD <- function(p=2, n, rotation="magic", w=100){
 	maxscore <- -10^10
 	
 	for(ll in 1:w) {
-		set.seed(ll)
+#		set.seed(ll)
 		
 		#### Generate rotation matrix 
 		

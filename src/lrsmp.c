@@ -37,7 +37,7 @@ long lrs_record_digits;		/* this is the biggest acheived so far.     */
 /******************************************************* */
 
 lrs_mp_t
-lrs_alloc_mp_t ()
+lrs_alloc_mp_t (void)
  /* dynamic allocation of lrs_mp number */
 {
   lrs_mp_t p;

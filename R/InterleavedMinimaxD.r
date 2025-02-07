@@ -45,7 +45,7 @@ gcd = function(a,b) {  # greatest common divider of two integers.
 }
 
 
-setGmML = setClass("GmML", slots = c(G="matrix", ps="numeric", coefD="matrix", coefC="matrix", Evor="matrix", expair="matrix"))
+setGmML = setClass("GmML", slots = c(G="matrix", ps="numeric", coefD="matrix", coefC="matrix", Evor="matrix", expair="matrix", coin="matrix", is.rep="numeric"))
   ## A class for information on interleaved lattices. 
   ## coefD: the 2^(ps[2]+ps[3]) * (pp+1) matrix. The first pp columns are the product points. The last column gives the coset index. 
   #### Defined if ps[2]+ps[3]>0. 
@@ -57,8 +57,10 @@ setGmML = setClass("GmML", slots = c(G="matrix", ps="numeric", coefD="matrix", c
   #### The 2,4,6,... rows for the last dimension being 0. 
   #### The 3,4,7,8,... rows for the second last dimension being 0. 
   #### Minus one an after decomposition, the elements with one shall be 0 for corresponding dimensions. 
-  ## expair: the pairs of dimensions that are exchangeable. 
+  ## expair: the pairs of dimensions that are exchangeable, indexing on the alt dimensions. 
   #### Defined if ps[2]+ps[3]>1. 
+  ## is.rep: 1 for repetitive dimensions and 0 for alternative dimensions. 
+  ## coin: 1 for coincident dimension pairs
 
 initG1 = function(pp) {  # Diagonal generator matrix with ones. 
 	GmML2 = setGmML(G=diag(pp))
@@ -157,7 +159,7 @@ supp = function(GmML1) {  # Supplement generating information.
 			if(j1<=dim(H)[1]&j2>dim(H)[1]) if(H[j1,j2]==1) if(sum(H[j1,])==2|sum(H[,j2])==1) expair=rbind(expair,c(j1,j2))
 		}
 	}
-	GmML1@expair=expair
+	GmML1@expair <- expair
 
 	Evor = diag(pp)
 	if(GmML1@ps[2]+GmML1@ps[3]>0) for(j in (GmML1@ps[1]+1):pp) Evor[j,j]=2
@@ -173,12 +175,24 @@ supp = function(GmML1) {  # Supplement generating information.
 		}
 		if(GmML1@ps[1]>0) Evor = rbind(Evor, cbind(matrix(0,dim(D0)[1],GmML1@ps[1]),D0)) else Evor = rbind(Evor,D0)
 	}
-	GmML1@Evor=Evor
+	GmML1@Evor <- Evor
 	
+	coin = matrix(1,pp,pp)  # 1: the columns are coincident
+	GM1 = GmML1@G[1:(pp-GmML1@ps[3]),,drop=FALSE]
+	for(i1 in 1:(pp-1)) for(i2 in (i1+1):pp) { 
+		for(j in 1:dim(GM1)[1])  if(GM1[j,i1]!=GM1[j,i2])  {  coin[i1,i2]=coin[i2,i1]=0;  break;  }
+	}
+	for(i1 in 1:pp)  coin[i1,i1]=0 
+	GmML1@coin = coin
+
+	is.rep = rep(1,pp) 
+	for(j in 1:pp) if(sum(GmML1@G[j,])>1) is.rep[j] = 0
+	GmML1@is.rep = is.rep
+
 	GmML1
 }
 
-tnp2 <- function(lsss,coefC) {
+tnp2 <- function(lsss,coefC) {   # compute the number of points with regard to the alt dimensions. lsss gives s for the alt dimensions, excluding the last dimension. Suppose the last dimension is two. 
 	oneortwo = (lsss>2)
 	counts = rep(0,dim(coefC)[2])
 	if(sum(oneortwo)==0)  counts = coefC[ sum(c(2-lsss,0)*2^(length(lsss):0))+1 ,]
@@ -196,7 +210,7 @@ tnp2 <- function(lsss,coefC) {
 	counts
 }
 
-tnp1 <- function(lsss,coefC) {
+tnp1 <- function(lsss,coefC) {   # compute the number of points with regard to the alt dimensions. lsss gives s for the alt dimensions, excluding the last dimension. Suppose the last dimension is one. 
 	oneortwo = (lsss>2)
 	counts = rep(0,dim(coefC)[2])
 	if(sum(oneortwo)==0)  counts = coefC[ sum(c(2-lsss,1)*2^(length(lsss):0))+1 ,]
@@ -220,14 +234,15 @@ InterleavedMinimaxD = function(p,n,maxdissimilarity=2*p)
 	if(!p>=2|!p<=8|!p==round(p)) stop("p must be an integer greater than one and no greater than eight.") 
 	if(!n>=2|!n==round(n)) stop("n must be an integer greater than one.") 
 
-	GMs = diag(p)
-	if(p==2) data(GMs2, envir=environment())
-	if(p==3) data(GMs3, envir=environment())
-	if(p==4) data(GMs4, envir=environment())
-	if(p==5) data(GMs5, envir=environment())
-	if(p==6) data(GMs6, envir=environment())
-	if(p==7) data(GMs7, envir=environment())
-	if(p==8) data(GMs8, envir=environment())
+	GMs <- NULL
+	if(p==2) GsName <- data(GMs2, envir=environment())
+	if(p==3) GsName <- data(GMs3, envir=environment())
+	if(p==4) GsName <- data(GMs4, envir=environment())
+	if(p==5) GsName <- data(GMs5, envir=environment())
+	if(p==6) GsName <- data(GMs6, envir=environment())
+	if(p==7) GsName <- data(GMs7, envir=environment())
+	if(p==8) GsName <- data(GMs8, envir=environment())
+#	GMs <- get(GsName)
 	CRofP=p  # The best covering radius of the transformed design so far for the given interleaved lattice. 
 	
 	for(indexG in 1:(dim(GMs)[1]/p)){  # Consider one generator matrix

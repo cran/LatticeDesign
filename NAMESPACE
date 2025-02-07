@@ -8,3 +8,4 @@ export(InterleavedMaximinDAlg1,InterleavedMaximinDAlg2,InterleavedMaximinDAlg3,I
 export(DPMPD,ProjSepD)
 export(RSPD,AdaptiveRSPD,SlicedRSPD)
 export(InterleavedMinimaxD,LRS)
+export(InterleavedFillSepD)

@@ -7,7 +7,7 @@ BAdd <- function(a,b) {  # Addition in Z_2, a and b are vectors
 	ss
 }
 
-BAdds <- function(a,b) {  # Addition in Z_2, a is a matrix and b is a vector
+BAdds_old <- function(a,b) {  # Addition in Z_2, a is a matrix and b is a vector
 	ssm <- matrix(0,dim(a)[1],dim(a)[2])
 	for(i in 1:dim(a)[1]) {
 		ssm[i,] <- a[i,]+b
@@ -16,7 +16,7 @@ BAdds <- function(a,b) {  # Addition in Z_2, a is a matrix and b is a vector
 	ssm
 }
 
-BAddss <- function(a,b) {  # Addition in Z_2, a and b are matrices 
+BAddss_old <- function(a,b) {  # Addition in Z_2, a and b are matrices 
 	ssm <- matrix(0,0,dim(a)[2])
 	for(i in 1:dim(a)[1]) for(j in 1:dim(b)[1]) {
 		ss <- a[i,]+b[j,]
@@ -26,12 +26,12 @@ BAddss <- function(a,b) {  # Addition in Z_2, a and b are matrices
 	ssm
 }
 
-AddToGroup <- function(a,b) {  # Add elements of b into the group of a, a is a matrix and b is a vector
+AddToGroup_old <- function(a,b) {  # Add elements of b into the group of a, a is a matrix and b is a vector
 	NewGenerator <- 1
 	aa <- a
 	if(dim(a)[1]==0) { aa <- matrix(0,1,length(b)); for(j in 1:length(b)) aa[1,j] <- b[j]; NewGenerator <- 0; }
 	if(dim(a)[1]>0) for(i in 1:dim(a)[1]) if(sum(a[i,]==b)==dim(a)[2]) NewGenerator <- 0
-	if(NewGenerator==1) aa <- rbind(a,b,BAdds(a,b))
+	if(NewGenerator==1) aa <- rbind(a,b,BAdds_old(a,b))
 	aa
 }
 
@@ -151,63 +151,74 @@ m_exact_fromL01 <- function(L01alt,is.rep,s_vector) {   # Compute m(L01alt,s_vec
 }
 
 CheckArrange <- function(p,p3,VectorListCannot,VectorListYes)  {
-  # Return 0 if cannot arrange; return number of (nonzero) cosets if can arrange. 
-  # VectorListYes must have group structure; VectorListCannot needs not. 
-  # VectorListYes can have zero rows; VectorListCannot needs at least one row. 
-	StatusList <- rep(-1,2^p-1)
-	if(dim(VectorListCannot)[1]>0) for(i in 1:dim(VectorListCannot)[1]) StatusList[SiteBinary(VectorListCannot[i,])] <- 2^p3
-	VectorListArrange <- rep(list(matrix(0,0,p)),2^p3-1)
-	if(dim(VectorListCannot)[1]>0) for(i in 1:dim(VectorListCannot)[1]) { 
-		VectorToArrange <- VectorListCannot[i,]
-		if(StatusList[SiteBinary(VectorToArrange)]==0) return(0)
-		if(StatusList[SiteBinary(VectorToArrange)]!=2^p3) next 
-		j=1; while(j<=2^p3-1) {
-			AddHere <- 1 
-			if(dim(VectorListArrange[[j]])[1]==0) break
-			VectorListToYes <- BAdds(VectorListArrange[[j]],VectorToArrange)
-			StatusListNew <- StatusList
-			VectorListNewYes <- VectorListYes
-			for(ii in 1:dim(VectorListToYes)[1]) {
-				temp <- AddToGroup(VectorListNewYes,VectorListToYes[ii,])
-				if(dim(temp)[1]>dim(VectorListNewYes)[1]) {
-					VectorListNewYes <- temp
-				}
-			}
-			for(iii in 1:dim(VectorListNewYes)[1]) {
-				if(StatusListNew[SiteBinary(VectorListNewYes[iii,])]>0) { AddHere <- 0; break; }
-				StatusListNew[SiteBinary(VectorListNewYes[iii,])] = 0
-			}
-			for(jj in 1:(2^p3-1)) if(dim(VectorListArrange[[jj]])[1]>0) { 
-				if(AddHere==0) break 
-				VectorListToCoset <- BAddss(VectorListArrange[[jj]],VectorListNewYes) 
-				for(iii in 1:dim(VectorListToCoset)[1]) {
-					OldStatus <- StatusListNew[SiteBinary(VectorListToCoset[iii,])]
-					if(OldStatus!=jj & OldStatus!=2^p3 & OldStatus!=-1) { AddHere <- 0; break; }
-					StatusListNew[SiteBinary(VectorListToCoset[iii,])] <- jj
-				}
-			}
-			if(AddHere==1) break
-			j=j+1
-		}
-		if(j==2^p3) return(0)
-		VectorListArrange[[j]] <- rbind(VectorListArrange[[j]],VectorToArrange)
-		StatusList[SiteBinary(VectorToArrange)] <- j
-		if(dim(VectorListArrange[[j]])[1]>1) {
-			VectorListYes <- VectorListNewYes
-			for(jj in 1:(2^p3-1)) if(dim(VectorListArrange[[jj]])[1]>0) { 
-				VectorListToCoset <- BAddss(VectorListArrange[[jj]],VectorListYes) 
-				for(iii in 1:dim(VectorListToCoset)[1]) {
-					if(StatusList[SiteBinary(VectorListToCoset[iii,])]!=jj) {
-						VectorListArrange[[jj]] <- rbind(VectorListArrange[[jj]],VectorListToCoset[iii,])
-						StatusList[SiteBinary(VectorListToCoset[iii,])] <- jj
-					}
-				}
-			}
-			StatusList <- StatusListNew
-		}
-	}
-	for(j in 1:(2^p3-1)) if(dim(VectorListArrange[[j]])[1]==0) return(j-1)
-	return(2^p3-1) 
+  # Return 0 if cannot arrange; return number of (nonzero) cosets if can arrange.
+  # VectorListYes must have group structure; VectorListCannot needs not.
+  # VectorListYes can have zero rows; VectorListCannot needs at least one row.
+  StatusList <- rep(-1,2^p-1)
+  if(dim(VectorListCannot)[1]>0) for(i in 1:dim(VectorListCannot)[1]) StatusList[SiteBinary(VectorListCannot[i,])] <- 2^p3
+  VectorListArrange <- rep(list(matrix(0,0,p)),2^p3-1)
+  if(dim(VectorListCannot)[1]>0) for(i in 1:dim(VectorListCannot)[1]) {
+    VectorToArrange <- VectorListCannot[i,]
+    if(StatusList[SiteBinary(VectorToArrange)]==0) return(0)
+    if(StatusList[SiteBinary(VectorToArrange)]!=2^p3) next
+    j=1; while(j<=2^p3-1) {
+      AddHere <- 1
+      if(dim(VectorListArrange[[j]])[1]==0) break
+      VectorListToYes <- BAdds_old(VectorListArrange[[j]],VectorToArrange)
+      StatusListNew <- StatusList
+      VectorListNewYes <- VectorListYes
+if(FALSE) { 
+#print("-----------VectorListArrange")
+#print(VectorListArrange[[j]]); 
+#print("-----------VectorToArrange")
+#print(VectorToArrange); 
+#print("-----------VectorListToYes")
+#print(VectorListToYes); 
+#print("-----------VectorListToYes--old")
+#print(BAdds_old(VectorListArrange[[j]],VectorToArrange)); 
+#print("-----------")
+}
+      for(ii in 1:dim(VectorListToYes)[1]) {
+        temp <- AddToGroup_old(VectorListNewYes,VectorListToYes[ii,])
+        if(dim(temp)[1]>dim(VectorListNewYes)[1]) {
+          VectorListNewYes <- temp    # H0
+        }
+      }
+      for(iii in 1:dim(VectorListNewYes)[1]) {
+        if(StatusListNew[SiteBinary(VectorListNewYes[iii,])]>0) { AddHere <- 0; break; }
+        StatusListNew[SiteBinary(VectorListNewYes[iii,])] = 0
+      }
+      for(jj in 1:(2^p3-1)) if(dim(VectorListArrange[[jj]])[1]>0) {
+        if(AddHere==0) break
+        VectorListToCoset <- BAddss_old(VectorListArrange[[jj]],VectorListNewYes)
+        for(iii in 1:dim(VectorListToCoset)[1]) {
+          OldStatus <- StatusListNew[SiteBinary(VectorListToCoset[iii,])]
+          if(OldStatus!=jj & OldStatus!=2^p3 & OldStatus!=-1) { AddHere <- 0; break; }
+          StatusListNew[SiteBinary(VectorListToCoset[iii,])] <- jj
+        }
+      }
+      if(AddHere==1) break
+      j=j+1
+    }
+    if(j==2^p3) return(0)
+    VectorListArrange[[j]] <- rbind(VectorListArrange[[j]],VectorToArrange)
+    StatusList[SiteBinary(VectorToArrange)] <- j
+    if(dim(VectorListArrange[[j]])[1]>1) {
+      VectorListYes <- VectorListNewYes
+      StatusList <- StatusListNew
+      for(jj in 1:(2^p3-1)) if(dim(VectorListArrange[[jj]])[1]>0) {
+        VectorListToCoset <- BAddss_old(VectorListArrange[[jj]],VectorListYes)
+        for(iii in 1:dim(VectorListToCoset)[1]) {
+          if(StatusList[SiteBinary(VectorListToCoset[iii,])]!=jj) {
+            VectorListArrange[[jj]] <- rbind(VectorListArrange[[jj]],VectorListToCoset[iii,])
+            StatusList[SiteBinary(VectorListToCoset[iii,])] <- jj
+          }
+        }
+      }
+    }
+  }
+  for(j in 1:(2^p3-1)) if(dim(VectorListArrange[[j]])[1]==0) return(j-1)
+  return(2^p3-1)
 }
 
 
@@ -491,7 +502,7 @@ InterleavedMaximinDAlg2 <- function(p,n,weight=rep(1,p)) {
 							CanNo <- ( CheckArrange(p-p1,p3,rbind(VectorListNo,VectorToNo),VectorListYes) >0 )
 							if(CanNo) VectorListNo <- rbind(VectorListNo,VectorToNo)
 							if(!CanNo) { 
-								VectorListYes <- AddToGroup(VectorListYes,VectorToNo)
+								VectorListYes <- AddToGroup_old(VectorListYes,VectorToNo)
 								VectorGeneratorAlt <- rbind(VectorGeneratorAlt,VectorListYes)
 								if(YesAlready==0) {
 									Sep <- min(c( Sep, SepN ))
@@ -595,7 +606,7 @@ InterleavedMaximinDAlg3 <- function(p,n,weight=rep(1,p)) {
 		L01List[VectorOrder[2],pp+1] <- 1
 		if(dim(L01List)[1]>2) for(i in 3:dim(L01List)[1]) if(L01List[VectorOrder[i],pp+1]==-1) {
 			L01List[VectorOrder[i],pp+1] <- 1
-			VectorListYes <- AddToGroup(VectorListYes,BAdd(L01List[VectorOrder[i],1:pp],L01List[VectorOrder[2],1:pp]))
+			VectorListYes <- AddToGroup_old(VectorListYes,BAdd(L01List[VectorOrder[i],1:pp],L01List[VectorOrder[2],1:pp]))
 			for(ii in 1:dim(L01List)[1]) for(iii in 1:dim(VectorListYes)[1]) 
 				if(sum(L01List[ii,1:pp]==VectorListYes[iii,])==pp) 
 					L01List[ii,pp+1] <- 0

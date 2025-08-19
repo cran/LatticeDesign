@@ -25,7 +25,7 @@ The value returned from the function is a list containing the following componen
 \item{ProjectiveSeparationDistance}{The projective separation distance of the generated design, from one-dimensional projections to the unprojected design.}
 }
 \references{
-He, Xu (2021). "Lattice-based designs possessing quasi-optimal separation distance on all projections", \emph{Biometrika}, 108(2): 443-454.
+He, Xu (2020). "Lattice-based designs possessing quasi-optimal separation distance on all projections", \emph{Biometrika}, accepted, DOI:10.1093/biomet/asaa057.
 
 He, Xu (2018). "Lattice-based designs with quasi-uniform projections", arXiv:1709.02062v2. 
 }

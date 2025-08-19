@@ -192,42 +192,6 @@ supp = function(GmML1) {  # Supplement generating information.
 	GmML1
 }
 
-tnp2 <- function(lsss,coefC) {   # compute the number of points with regard to the alt dimensions. lsss gives s for the alt dimensions, excluding the last dimension. Suppose the last dimension is two. 
-	oneortwo = (lsss>2)
-	counts = rep(0,dim(coefC)[2])
-	if(sum(oneortwo)==0)  counts = coefC[ sum(c(2-lsss,0)*2^(length(lsss):0))+1 ,]
-	if(sum(oneortwo)!=0)  { 
-		for(j in 1:length(lsss)) if(lsss[j]>2) break
-		thedim = j 
-		thetwos = floor((lsss[j]-1)/2)
-		lsss1 = lsss
-		lsss1[thedim]=2
-		lsss2 = lsss
-		lsss2[thedim]=lsss[thedim]-thetwos*2
-		counts = thetwos*tnp2(lsss1,coefC) + tnp2(lsss2,coefC)
-	}
-	
-	counts
-}
-
-tnp1 <- function(lsss,coefC) {   # compute the number of points with regard to the alt dimensions. lsss gives s for the alt dimensions, excluding the last dimension. Suppose the last dimension is one. 
-	oneortwo = (lsss>2)
-	counts = rep(0,dim(coefC)[2])
-	if(sum(oneortwo)==0)  counts = coefC[ sum(c(2-lsss,1)*2^(length(lsss):0))+1 ,]
-	if(sum(oneortwo)!=0)  { 
-		for(j in 1:length(lsss)) if(lsss[j]>2) break
-		thedim = j 
-		thetwos = floor((lsss[j]-1)/2)
-		lsss1 = lsss
-		lsss1[thedim]=2
-		lsss2 = lsss
-		lsss2[thedim]=lsss[thedim]-thetwos*2
-		counts = thetwos*tnp1(lsss1,coefC) + tnp1(lsss2,coefC)
-	}
-	
-	counts
-}
-
 
 InterleavedMinimaxD = function(p,n,maxdissimilarity=2*p)
 {

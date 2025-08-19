@@ -3,7 +3,7 @@
 \title{Vertexes of a polytope giving halfspace definition}
 \description{
 Computes the radius, widths, and vertexes of a polytope giving halfspace definition. 
-The program is a R shell of LRS (v.5.1a with lrsmp.h), a reverse search vertex enumeration program/CH package in C which is developed by David Avis. 
+The program is a R shell of LRS (v.5.1a with lrsmp.h), a reverse search vertex enumeration program/CH package in C which is developed by David Avis <http://cgm.cs.mcgill.ca/~avis/C/lrs.html>. 
 Consider the problem of Ax<=b, where A is an n*p matrix, x is a p-vector, and b is an n-vector. Please make sure that the solution of x is nonempty and bounded. Then the nonequalities give the halfspace definition of a polytope. Also make sure that A and b are rational numbers. 
 }
 \usage{
@@ -27,6 +27,8 @@ The value returned from the function is a list containing the following componen
 \item{Vertexes}{The vertexes of the polytope.}
 }
 \references{
+Avis, David. LRS, \url{http://cgm.cs.mcgill.ca/~avis/C/lrs.html}.
+
 He, Xu (2017). "Interleaved lattice-based minimax distance designs", \emph{Biometrika}, 104(3): 713-725.
 }
 \examples{
